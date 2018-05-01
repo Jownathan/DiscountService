@@ -1,24 +1,24 @@
 <?php
 
+require __DIR__ . '/../src/Classes/DiscountCalculator.php';
+
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Discount\Classes\DiscountCalculator;
+
 
 // Routes
 
-$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
+$app->get('/api/discounts', function (Request $request, Response $response, array $args){
 
-    /*
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args); */
 
-    return json_encode($args);
 });
 
 $app->post('/api/order', function (Request $request, Response $response, array $args) {
     // Sample log message
     $this->logger->info("Slim-Skeleton '/' route");
+
+    $discountcalculator = new DiscountCalculator();
 
     $body = $request->getParsedBody();
     $id = $body['id'];
@@ -26,11 +26,19 @@ $app->post('/api/order', function (Request $request, Response $response, array $
     $items = $body['items'];
     $total = $body['total'];
 
-    $data = array('id' => $id, 'customer-id' => $customerid,'items' => $items,'total' => $total);
+    try{
+        $data = $discountcalculator->calculateDiscount($body);
+        return $response->withJson($data);
 
-    return $response->withJson($data);
+    }catch(Exception $exception){
+        return $response->body = $exception->getMessage();
+    }
+
+
+    //$data = array('id' => $id, 'customer-id' => $customerid,'items' => $items,'total' => $total);
 });
 
+/*
 $app->put('/api/data/customers', function (Request $request, Response $response, array $args) {
     // Sample log message
     $this->logger->info("Slim-Skeleton '/' route");
@@ -52,3 +60,4 @@ $app->put('/api/data/products', function (Request $request, Response $response, 
 
     return $response->withJson($body);
 });
+*/
