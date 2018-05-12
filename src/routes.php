@@ -8,12 +8,7 @@ use Discount\Classes\DiscountCalculator;
 
 
 // Routes
-
-$app->get('/api/discounts', function (Request $request, Response $response, array $args){
-
-
-});
-
+//If an order is sent as json to '/api/order', a json with additional discounts will be returned
 $app->post('/api/order', function (Request $request, Response $response, array $args) {
     // Sample log message
     $this->logger->info("Slim-Skeleton '/' route");
@@ -21,43 +16,12 @@ $app->post('/api/order', function (Request $request, Response $response, array $
     $discountcalculator = new DiscountCalculator();
 
     $body = $request->getParsedBody();
-    $id = $body['id'];
-    $customerid = $body['customer-id'];
-    $items = $body['items'];
-    $total = $body['total'];
 
     try{
         $data = $discountcalculator->calculateDiscount($body);
         return $response->withJson($data);
 
     }catch(Exception $exception){
-        return $response->body = $exception->getMessage();
+        return $response->withJson(array("Error: "=>$exception->getMessage()));
     }
-
-
-    //$data = array('id' => $id, 'customer-id' => $customerid,'items' => $items,'total' => $total);
 });
-
-/*
-$app->put('/api/data/customers', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    $body = $request->getParsedBody();
-
-    $data =null;
-
-    return $response->withJson($body);
-});
-
-$app->put('/api/data/products', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    $body = $request->getParsedBody();
-
-    $data =null;
-
-    return $response->withJson($body);
-});
-*/

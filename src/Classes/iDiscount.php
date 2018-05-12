@@ -11,6 +11,5 @@ namespace Discount\Classes;
 
 interface iDiscount
 {
-    public function getDiscounts();
     public function calculateDiscount($body);
 }
