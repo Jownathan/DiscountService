@@ -1,27 +1,64 @@
-# Slim Framework 3 Skeleton Application
+# DiscountService
+*Current Version:* ***0.0.1***
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+A PHP Microservice for calculating discounts on orders.
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Introduction
+DiscountService is written in PHP and was created as a test for [Teamleader](https://www.teamleader.eu/).
+It uses the [Slim](https://www.slimframework.com/) framework and an external (for this test fictional) API for fetching customer and product data.
 
-## Install the Application
+## Usage
+To calculate a discount you can use the following request where you send a json-file with the order:
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+```
+POST /api/order
+```
+The order you send should look like this:
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
+```
+{
+  "id": "1",
+  "customer-id": "1",
+  "items": [
+    {
+      "product-id": "B102",
+      "quantity": "10",
+      "unit-price": "4.99",
+      "total": "49.90"
+    }
+  ],
+  "total": "49.90"
+}
+```
+And a json file will be returned looking like this:
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+```
+{
+    "id": "1",
+    "customer-id": "1",
+    "items": [
+        {
+            "product-id": "B102",
+            "quantity": "12",
+            "unit-price": "4.99",
+            "total": "49.90",
+            "amount-free-items": "2",
+            "discount-description": "For every product of category  \"Switches\" (id 2), when you buy 5 you get one for free."
+        }
+    ],
+    "total": "49.9"
+}
+```
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
+## Install the Service
 
-To run the application in development, you can run these commands 
+The service can be run locally by going to the DiscountService-folder and executing the following command:
 
-	cd [my-app-name]
-	php composer.phar start
-
-Run this command in the application directory to run the test suite
-
-	php composer.phar test
-
-That's it! Now go build something cool.
+```
+cd [directory-of-service]/DiscountService
+php -S localhost:8080 -t public public/index.php
+```
+POST requests can then be sent to: 
+```
+http://localhost:8080/api/order
+```
