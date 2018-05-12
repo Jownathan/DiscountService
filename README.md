@@ -52,13 +52,22 @@ And a json file will be returned looking like this:
 
 ## Install the Service
 
-The service can be run locally by going to the DiscountService-folder and executing the following command:
+Docker can be used to run the service.
+Go to the DiscountService-folder and executing the following command:
+
+```
+cd [directory-of-service]/DiscountService
+docker-compose up
+```
+POST requests can then be sent to: 
+```
+http://192.168.99.100:8080/api/order
+```
+
+The service can also be run locally without docker by doing the same steps, except use a different command
 
 ```
 cd [directory-of-service]/DiscountService
 php -S localhost:8080 -t public public/index.php
 ```
-POST requests can then be sent to: 
-```
-http://localhost:8080/api/order
-```
+
