@@ -30,6 +30,7 @@ class DiscountCalculator implements iDiscount
         $data = json_decode($file,true);
         $res = array();
         foreach ($data as $customer){
+            //The array works with the customer-id as key and the remaining items as value
             $id = $customer['id'];
             unset($customer['id']);
             $res[$id] = $customer;
@@ -44,6 +45,7 @@ class DiscountCalculator implements iDiscount
         $data = json_decode($file,true);
         $res = array();
         foreach ($data as $product){
+            //The array works with the product-id as key and the remaining items as value
             $id = $product['id'];
             unset($product['id']);
             $res[$id] = $product;
