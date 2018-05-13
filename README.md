@@ -13,7 +13,7 @@ To calculate a discount you can use the following request where you send a json-
 ```
 POST /api/order
 ```
-The order you send should look like this:
+The order you send should look something like this:
 
 ```
 {
@@ -64,10 +64,13 @@ POST requests can then be sent to:
 http://192.168.99.100:8080/api/order
 ```
 
-The service can also be run locally without docker by doing the same steps, except use a different command
+The service can also be run locally without docker by doing the same steps, except using a different command
 
 ```
 cd [directory-of-service]/DiscountService
 php -S localhost:8080 -t public public/index.php
 ```
-
+Here POST requests can be sent to:
+```
+http://localhost:8080/api/order
+```
